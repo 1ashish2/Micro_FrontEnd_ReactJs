@@ -4,7 +4,9 @@ name: deploy-container
 # container/** specifies that when we have change in container then only run workflow
 on: 
   push:
-   branches: [ "master" ]
+    branches: 
+      - master
+      - main
     paths:
       - 'container/**'
 
