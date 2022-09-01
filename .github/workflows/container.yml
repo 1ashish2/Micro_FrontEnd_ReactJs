@@ -2,7 +2,7 @@ name: deploy-container
 
 # this on is use to watch for events to run workflow and also use when the workflow run
 # container/** specifies that when we have change in container then only run workflow
-on: 
+runs-on: 
   push:
     branches:
       - master
