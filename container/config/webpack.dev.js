@@ -1,25 +1,29 @@
-const {merge} =require('webpack-merge');
-const ModuleFederationPlugin=require('webpack/lib/container/ModuleFederationPlugin')
-const commonConfig=require('./webpack.common')
-const packageJson=require('../package.json');
+const { merge } = require('webpack-merge');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const commonConfig = require('./webpack.common');
+const packageJson = require('../package.json');
 
-const devConfig={
-    mode:'development',
-    devServer:{
-        port:8080,
-        historyApiFallback:true
+const devConfig = {
+  mode: 'development',
+  output: {
+    publicPath: 'http://localhost:8080/',
+  },
+  devServer: {
+    port: 8080,
+    historyApiFallback: {
+      index: 'index.html',
     },
-    plugins:[
-        new ModuleFederationPlugin({
-            name:'container',
-            remotes:{
-                marketing:'marketing@http://localhost:8081/remoteEntry.js'
-            },
-            // shared:['react','react-dom']
-            shared:packageJson.dependencies,// to maganage dynamically with packagejson dependencies
-            // we use this only we know version are same for all
-        })
-    ]
-}
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'container',
+      remotes: {
+        marketing: 'marketing@http://localhost:8081/remoteEntry.js',
+        auth: 'auth@http://localhost:8082/remoteEntry.js',
+      },
+      shared: packageJson.dependencies,
+    }),
+  ],
+};
 
-module.exports=merge(commonConfig,devConfig);
+module.exports = merge(commonConfig, devConfig);
